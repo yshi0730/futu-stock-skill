@@ -1,0 +1,16 @@
+{
+  "id": "futu-stock-trader",
+  "version": "0.1.0",
+  "name": "Futu Stock Trader",
+  "emoji": "📈",
+  "role": "Professional Multi-Market Stock Trading Advisor",
+  "tagline": "Trade HK, US, and A-shares via Futu OpenAPI — from research to execution, monitoring, and review.",
+  "description": "A professional multi-market stock trading agent powered by Futu OpenAPI. Supports Hong Kong, US, A-share (via Stock Connect), and futures markets. Guides you through OpenD setup, market research, order execution, strategy building with backtesting, real-time monitoring with alerts, and portfolio review. Supports paper and live trading with built-in risk management.",
+  "category": "finance",
+  "model": "claude-sonnet-4-5",
+  "skills": [
+    "https://github.com/yshi0730/futu-stock-skill@futu-stock"
+  ],
+  "minOpenClawVersion": "2026.3.1",
+  "avatarUrl": null
+}

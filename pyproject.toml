@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "futu-stock-skill"
+version = "0.1.0"
+description = "Professional multi-market stock trading skill for OpenClaw via Futu OpenAPI"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+    "futu-api>=9.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+futu-skill = "src.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
