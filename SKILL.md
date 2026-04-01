@@ -92,6 +92,74 @@ When backtesting a strategy:
 5. Compare against buy-and-hold benchmark (HSI for HK, SPY for US, CSI300 for A-shares)
 6. Suggest improvements based on results
 
+### Overnight Research & Morning Briefing
+
+**This is a core differentiator.** You don't just wait for the user — you work while they sleep.
+
+#### Background Research (via cron, runs overnight / off-hours)
+
+When the user is away, use scheduled cron tasks to **proactively research and prepare**:
+
+1. **Portfolio health check**: Snapshot all positions across all markets (HK, US, A-shares), calculate P&L changes since last session
+2. **News scan**: Search for breaking news, company announcements (公告), and press releases for all held stocks and watchlist symbols using `WebSearch`. Cover both English and Chinese news sources.
+3. **Earnings & events**: Check if any held stocks have upcoming earnings (业绩公告), ex-dividend dates (除权除息日), shareholder meetings, or other catalysts within the next 7 days
+4. **Analyst activity**: Look for analyst upgrades/downgrades, price target changes, and research notes (研报) on held positions
+5. **Sector & macro**: Check major index performance (HSI, SPY, CSI300, VIX), sector rotation, PBOC/Fed policy news, cross-market correlations (e.g., A-share sentiment impacting HK-listed stocks)
+6. **Capital flow analysis**: For HK and A-share positions, check institutional capital flow trends — are big orders accumulating or distributing?
+7. **Strategy evaluation**: For active strategies, check if any trigger conditions are approaching — pre-compute signals so the morning briefing has actionable items
+8. **Risk alerts**: Flag positions with unusual overnight/after-hours movement (>3%), positions approaching stop-loss levels, T+1 sell availability for A-shares, or high concentration risk
+9. **Cross-market overnight**: For HK/A-share users, check US overnight performance that may impact Asian open. For US positions, check Asian session signals.
+
+Store all findings in a structured overnight research log.
+
+#### Morning Briefing (when user opens a new session)
+
+When the user starts a new conversation (especially in the morning), **proactively present** a concise briefing before they ask:
+
+```
+## ☀️ 早安 — 今日交易简报 (2025-03-15)
+
+### 🌍 隔夜市场
+- 美股: S&P +0.3%, Nasdaq +0.5%, 道指 +0.1%
+- 港股夜期: +0.4% (预示高开)
+- A50期货: +0.2%
+- VIX: 14.2 (低恐慌)
+
+### 📊 你的持仓
+- 港股持仓市值: HKD 523,400 (+0.8%)
+- 美股持仓市值: USD 31,200 (-0.3%)
+- 最佳: 腾讯 00700 +2.1% | 最差: AAPL -0.8%
+
+### 🔔 今日行动项
+1. ⚠️ BABA 接近止损位 ($85, 现价 $86.20)
+2. 📅 腾讯 3天后发布Q4业绩 — 考虑减仓或收紧止损
+3. 📰 比亚迪 01211: 3月销量数据公布，同比+35%
+4. 💰 00700 资金流向: 连续3日特大单净流入
+5. 💡 你的均线交叉策略在美的集团 SZ.000333 触发买入信号
+
+### 📰 持仓相关新闻
+- 腾讯: 游戏版号获批3款新游，市场反应正面
+- AAPL: 欧盟反垄断罚款€12亿，欧洲盘后下跌
+- 比亚迪: 进军日本市场，与丰田合作充电网络
+```
+
+The briefing should be:
+- **Concise**: fit in one screen, use tables and bullet points
+- **Actionable**: prioritize items that need decisions TODAY
+- **Risk-first**: lead with warnings and stop-loss proximity
+- **Personalized**: only about the user's actual holdings, watchlist, and active strategies
+- **Multi-market aware**: show cross-market impacts (US overnight → HK/A-share open)
+- **Bilingual**: match the user's language preference
+
+#### Cron Schedule
+
+Set up the following cron tasks (adjusted for multi-market coverage):
+- **Asian pre-market research** (daily, 08:30 HKT): Scan US overnight results, news, analyst actions for HK and A-share positions
+- **US pre-market research** (daily, 08:30 ET): Scan Asian session results, news for US positions
+- **Post-market snapshot** (daily, after each market close): Record closing positions, flag after-hours moves
+- **Capital flow digest** (daily, after HK/A-share close): Summarize institutional money flow for held stocks
+- **Weekly deep review** (Sunday evening): Comprehensive weekly performance analysis, strategy parameter check, risk exposure review across all markets
+
 ### Review & Journaling
 
 Proactively suggest reviews:
