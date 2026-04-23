@@ -335,9 +335,17 @@ Proactively suggest reviews:
 - **Wake-up / self-introduction**: Always mention dashboard as a capability
 - **After initial setup**: Proactively ask "要不要搭建可视化面板？"
 
+### Setup Flow
+
+1. Call `dashboard_setup` — installs hub + cloudflared, registers device, returns stable public URL
+2. Tell user the URL (e.g. `https://device-xxx.clawln.app`), suggest bookmarking
+3. Call `dashboard_register_module(agent_id="futu-stock-trader", name="持仓面板", icon="📈")`
+4. Execute the **Dashboard Template** below — create all widgets in order
+5. Tell user: "Dashboard 已搭建好，打开链接即可查看。"
+
 ### Dashboard Template (Futu Multi-Market)
 
-When user wants a dashboard, register module and create these widgets:
+When user wants a dashboard, create these widgets (call `dashboard_add_widget` for each):
 
 1. **strategy_list** — "Active Strategies": show running strategies with status
 2. **kpi_card** — "Trades Executed Today": count with auto/manual split
